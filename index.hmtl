@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Foocus Ag</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+  :root { --coral:#FF5C4D; --blue:#0066FF; --lime:#B8FF00; --black:#0A0A0A; --cream:#F5F0E8; --gray:#1A1A1A; --gray2:#2A2A2A; }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{font-family:'Outfit',sans-serif;background:var(--black);color:var(--cream);overflow-x:hidden;}
+  h1,h2,h3,h4{font-family:'Syne',sans-serif;}
+
+  /* NAV */
+  nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:1.2rem 2.5rem;background:rgba(10,10,10,0.88);backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,0.06);}
+  .logo{font-family:'Syne',sans-serif;font-weight:800;font-size:1.4rem;letter-spacing:-.5px;}
+  .logo span{color:var(--coral);}
+  .nav-right{display:flex;align-items:center;gap:1.5rem;}
+  .nav-links{display:flex;gap:1.8rem;list-style:none;}
+  .nav-links a{color:rgba(245,240,232,.7);text-decoration:none;font-size:.88rem;font-weight:500;transition:color .2s;}
+  .nav-links a:hover{color:var(--cream);}
+  .lang-toggle{background:var(--gray2);border:1px solid rgba(255,255,255,.1);border-radius:20px;padding:4px;display:flex;gap:2px;}
+  .lang-btn{background:none;border:none;color:rgba(245,240,232,.5);font-family:'Outfit',sans-serif;font-size:.78rem;font-weight:600;padding:4px 12px;border-radius:16px;cursor:pointer;transition:all .2s;}
+  .lang-btn.active{background:var(--coral);color:white;}
+
+  /* HERO */
+  #hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:8rem 2.5rem 5rem;background:var(--black);position:relative;overflow:hidden;}
+  .hero-bg{position:absolute;top:0;left:0;right:0;bottom:0;background:radial-gradient(ellipse 60% 50% at 70% 50%,rgba(0,102,255,.12) 0%,transparent 70%),radial-gradient(ellipse 40% 40% at 20% 80%,rgba(255,92,77,.1) 0%,transparent 60%);pointer-events:none;}
+  .hero-tag{display:inline-block;background:rgba(184,255,0,.12);border:1px solid var(--lime);color:var(--lime);font-size:.75rem;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;padding:6px 14px;border-radius:20px;margin-bottom:1.8rem;}
+  .hero-title{font-size:clamp(2.8rem,7vw,6rem);font-weight:800;line-height:1.02;letter-spacing:-2px;max-width:800px;}
+  .hero-title .accent{color:var(--coral);}
+  .hero-title .accent2{color:var(--blue);}
+  .hero-sub{margin-top:1.5rem;font-size:clamp(1rem,2vw,1.2rem);color:rgba(245,240,232,.65);max-width:520px;line-height:1.6;font-weight:300;}
+  .hero-ctas{margin-top:2.5rem;display:flex;gap:1rem;flex-wrap:wrap;}
+  .btn-primary{background:var(--coral);color:white;border:none;padding:14px 28px;border-radius:8px;font-family:'Outfit',sans-serif;font-size:.95rem;font-weight:600;cursor:pointer;text-decoration:none;transition:all .2s;display:inline-block;}
+  .btn-primary:hover{background:#ff3d2e;transform:translateY(-1px);}
+  .btn-outline{background:transparent;color:var(--cream);border:1px solid rgba(245,240,232,.25);padding:14px 28px;border-radius:8px;font-family:'Outfit',sans-serif;font-size:.95rem;font-weight:500;cursor:pointer;text-decoration:none;transition:all .2s;display:inline-block;}
+  .btn-outline:hover{border-color:var(--cream);background:rgba(245,240,232,.05);}
+  .hero-stats{margin-top:4rem;display:flex;gap:3rem;flex-wrap:wrap;}
+  .stat-num{font-family:'Syne',sans-serif;font-size:2rem;font-weight:800;color:var(--lime);}
+  .stat-label{font-size:.82rem;color:rgba(245,240,232,.5);margin-top:2px;}
+
+  /* SECTIONS */
+  section{padding:6rem 2.5rem;}
+  .section-label{font-size:.72rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--coral);margin-bottom:1rem;}
+  .section-title{font-size:clamp(2rem,4vw,3rem);font-weight:800;line-height:1.1;letter-spacing:-1px;}
+  .section-sub{margin-top:.8rem;color:rgba(245,240,232,.55);font-size:1rem;max-width:500px;line-height:1.6;}
+  .max-w{max-width:1100px;margin:0 auto;}
+
+  /* SERVICES */
+  #services{background:var(--gray);}
+  .services-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1.5px;margin-top:3.5rem;border:1.5px solid rgba(255,255,255,.06);border-radius:12px;overflow:hidden;}
+  .service-card{background:var(--gray2);padding:2rem 1.8rem;transition:background .2s;position:relative;overflow:hidden;}
+  .service-card:hover{background:#333;}
+  .service-icon{font-size:1.8rem;margin-bottom:1rem;}
+  .service-card h3{font-size:1.1rem;font-weight:700;margin-bottom:.6rem;}
+  .service-card p{font-size:.87rem;color:rgba(245,240,232,.55);line-height:1.6;}
+  .service-tag{display:inline-block;margin-top:1rem;font-size:.72rem;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--lime);}
+  .coming-soon-label{display:flex;align-items:center;gap:1rem;margin-top:3rem;margin-bottom:1.2rem;}
+  .coming-soon-label .cs-badge{background:rgba(0,102,255,.12);border:1px solid rgba(0,102,255,.4);color:var(--blue);font-size:.68rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:5px 14px;border-radius:20px;white-space:nowrap;}
+  .coming-soon-label .cs-line{flex:1;height:1px;background:rgba(255,255,255,.06);}
+  .coming-soon-label p{font-size:.8rem;color:rgba(245,240,232,.35);white-space:nowrap;}
+  .services-grid-soon{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1.5px;border:1.5px solid rgba(0,102,255,.12);border-radius:12px;overflow:hidden;}
+  .service-card-soon{background:rgba(0,102,255,.04);padding:2rem 1.8rem;position:relative;}
+  .service-card-soon .service-icon{opacity:.5;}
+  .service-card-soon h3{font-size:1.1rem;font-weight:700;margin-bottom:.6rem;color:rgba(245,240,232,.6);}
+  .service-card-soon p{font-size:.87rem;color:rgba(245,240,232,.35);line-height:1.6;}
+  .soon-tag{display:inline-block;margin-top:1rem;font-size:.68rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--blue);opacity:.7;}
+
+  /* PORTFOLIO */
+  #portfolio{background:var(--black);}
+  .portfolio-tabs{display:flex;gap:.5rem;margin-top:2.5rem;flex-wrap:wrap;}
+  .ptab{background:var(--gray2);border:1px solid rgba(255,255,255,.08);color:rgba(245,240,232,.55);font-family:'Outfit',sans-serif;font-size:.8rem;font-weight:600;padding:8px 18px;border-radius:20px;cursor:pointer;transition:all .2s;}
+  .ptab.active,.ptab:hover{background:var(--coral);border-color:var(--coral);color:white;}
+
+  /* REELS GRID */
+  .reels-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:1rem;margin-top:2rem;}
+  .reel-card{position:relative;border-radius:12px;overflow:hidden;aspect-ratio:9/16;background:linear-gradient(135deg,var(--gray2) 0%,#1a1a2e 100%);cursor:pointer;border:1px solid rgba(255,255,255,.1);transition:transform .2s,box-shadow .2s,border-color .2s;text-decoration:none;display:flex;flex-direction:column;align-items:center;justify-content:center;}
+  .reel-card:hover{transform:scale(1.03);box-shadow:0 16px 40px rgba(0,0,0,.5);border-color:var(--coral);}
+  .reel-play{width:48px;height:48px;background:rgba(255,92,77,.15);border-radius:50%;display:flex;align-items:center;justify-content:center;border:2px solid rgba(255,92,77,.4);transition:all .2s;margin-bottom:.8rem;}
+  .reel-card:hover .reel-play{background:var(--coral);border-color:var(--coral);transform:scale(1.1);}
+  .reel-play svg{fill:white;width:18px;height:18px;margin-left:3px;}
+  .reel-num{font-family:'Syne',sans-serif;font-size:1.4rem;font-weight:800;color:rgba(255,255,255,.08);position:absolute;top:.6rem;left:.8rem;line-height:1;}
+  .reel-label{font-size:.7rem;font-weight:600;color:rgba(245,240,232,.7);text-transform:uppercase;letter-spacing:.5px;text-align:center;padding:0 .5rem;}
+  .reel-ig{font-size:.6rem;color:rgba(245,240,232,.3);margin-top:.3rem;text-align:center;}
+  .reel-corner{position:absolute;bottom:.6rem;right:.6rem;width:20px;height:20px;opacity:.3;}
+  .reel-corner svg{fill:white;width:100%;height:100%;}
+
+  /* DESIGN GRID */
+  .design-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1.2rem;margin-top:2rem;}
+  .design-card{border-radius:12px;overflow:hidden;border:1px solid rgba(255,255,255,.08);background:var(--gray2);transition:transform .2s,box-shadow .2s;}
+  .design-card:hover{transform:translateY(-3px);box-shadow:0 16px 40px rgba(0,0,0,.4);}
+  .design-img{width:100%;aspect-ratio:4/3;object-fit:cover;display:block;}
+  .design-img.tall{aspect-ratio:3/4;}
+  .design-body{padding:1rem 1.2rem;}
+  .design-cat{font-size:.68rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--coral);margin-bottom:.3rem;}
+  .design-name{font-family:'Syne',sans-serif;font-size:.95rem;font-weight:700;}
+
+  /* Portfolio section tabs content */
+  .ptab-content{display:none;}
+  .ptab-content.active{display:block;}
+
+  /* WORK / CASE STUDIES */
+  #work{background:var(--gray);}
+  .work-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1.5rem;margin-top:3.5rem;}
+  .case-card{border-radius:12px;overflow:hidden;border:1px solid rgba(255,255,255,.08);background:var(--gray2);transition:transform .2s,box-shadow .2s;}
+  .case-card:hover{transform:translateY(-4px);box-shadow:0 20px 40px rgba(0,0,0,.4);}
+  .case-thumb{height:200px;display:flex;align-items:center;justify-content:center;font-size:3rem;position:relative;overflow:hidden;}
+  .case-type-badge{position:absolute;top:12px;right:12px;background:rgba(0,0,0,.6);backdrop-filter:blur(6px);font-size:.68rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:4px 10px;border-radius:20px;color:var(--lime);border:1px solid rgba(184,255,0,.3);}
+  .thumb-asset-hint{position:absolute;bottom:10px;left:0;right:0;text-align:center;font-size:.65rem;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,.25);}
+  .case-body{padding:1.5rem;}
+  .case-client{font-size:.72rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--coral);margin-bottom:.4rem;}
+  .case-title{font-family:'Syne',sans-serif;font-size:1.1rem;font-weight:700;margin-bottom:.6rem;}
+  .case-desc{font-size:.85rem;color:rgba(245,240,232,.55);line-height:1.6;}
+  .case-results{margin-top:1rem;display:flex;gap:.8rem;flex-wrap:wrap;}
+  .result-pill{background:rgba(184,255,0,.08);border:1px solid rgba(184,255,0,.2);border-radius:8px;padding:6px 12px;font-size:.75rem;font-weight:600;color:var(--lime);display:flex;flex-direction:column;gap:1px;min-width:80px;}
+  .result-pill .rnum{font-family:'Syne',sans-serif;font-size:1rem;font-weight:800;}
+  .result-pill .rlabel{font-size:.65rem;font-weight:500;color:rgba(184,255,0,.6);text-transform:uppercase;letter-spacing:.5px;}
+  .case-tags{margin-top:1rem;display:flex;flex-wrap:wrap;gap:.4rem;}
+  .tag{font-size:.7rem;padding:3px 10px;border-radius:20px;background:rgba(255,255,255,.06);color:rgba(245,240,232,.6);}
+
+  /* PRICING */
+  #pricing{background:var(--black);}
+  .pricing-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem;margin-top:3.5rem;}
+  .price-card{background:var(--gray2);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:2rem 1.8rem;position:relative;transition:transform .2s;}
+  .price-card:hover{transform:translateY(-3px);}
+  .price-card.featured{border-color:var(--coral);}
+  .featured-badge{position:absolute;top:-1px;left:50%;transform:translateX(-50%);background:var(--coral);color:white;font-size:.68rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:4px 16px;border-radius:0 0 8px 8px;}
+  .price-name{font-family:'Syne',sans-serif;font-size:1rem;font-weight:700;margin-bottom:.4rem;}
+  .price-amount{font-family:'Syne',sans-serif;font-size:1.6rem;font-weight:800;color:var(--lime);margin:.8rem 0;}
+  .price-desc{font-size:.83rem;color:rgba(245,240,232,.5);margin-bottom:1.5rem;line-height:1.5;}
+  .price-features{list-style:none;display:flex;flex-direction:column;gap:.6rem;}
+  .price-features li{font-size:.85rem;color:rgba(245,240,232,.7);display:flex;align-items:flex-start;gap:.5rem;}
+  .price-features li::before{content:'→';color:var(--coral);flex-shrink:0;margin-top:1px;}
+  .price-cta{margin-top:1.8rem;width:100%;text-align:center;}
+
+  /* CONTACT */
+  #contact{background:var(--gray);}
+  .contact-inner{max-width:640px;margin:0 auto;text-align:center;}
+  .contact-inner p{margin-top:1rem;color:rgba(245,240,232,.55);font-size:1rem;line-height:1.7;}
+  .contact-options{margin-top:2.5rem;display:flex;flex-direction:column;gap:1rem;align-items:center;}
+  .contact-link{display:flex;align-items:center;gap:.8rem;background:var(--gray2);border:1px solid rgba(255,255,255,.08);padding:1rem 2rem;border-radius:10px;text-decoration:none;color:var(--cream);font-size:.9rem;font-weight:500;transition:all .2s;width:100%;max-width:360px;justify-content:center;}
+  .contact-link:hover{border-color:var(--coral);color:var(--coral);}
+  .contact-link .cicon{font-size:1.2rem;}
+
+  /* FOOTER */
+  footer{background:var(--black);border-top:1px solid rgba(255,255,255,.06);padding:2rem 2.5rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;}
+  .footer-logo{font-family:'Syne',sans-serif;font-weight:800;font-size:1.1rem;}
+  .footer-logo span{color:var(--coral);}
+  footer p{font-size:.78rem;color:rgba(245,240,232,.35);}
+
+  @media(max-width:640px){
+    nav{padding:1rem 1.2rem;}
+    .nav-links{display:none;}
+    section{padding:4rem 1.2rem;}
+    #hero{padding:7rem 1.2rem 4rem;}
+    .hero-stats{gap:2rem;}
+    footer{padding:1.5rem 1.2rem;text-align:center;justify-content:center;}
+    .reels-grid{grid-template-columns:repeat(auto-fill,minmax(140px,1fr));}
+  }
+  .lang-en [data-es]{display:none!important;}
+  .lang-es [data-en]{display:none!important;}
+</style>
+</head>
+<body class="lang-en">
+
+<!-- NAV -->
+<nav>
+  <div class="logo">Foocus<span>.</span></div>
+  <div class="nav-right">
+    <ul class="nav-links">
+      <li><a href="#services" data-en>Services</a><a href="#services" data-es>Servicios</a></li>
+      <li><a href="#portfolio" data-en>Work</a><a href="#portfolio" data-es>Trabajo</a></li>
+      <li><a href="#work" data-en>Cases</a><a href="#work" data-es>Casos</a></li>
+      <li><a href="#pricing" data-en>Pricing</a><a href="#pricing" data-es>Precios</a></li>
+      <li><a href="#contact" data-en>Contact</a><a href="#contact" data-es>Contacto</a></li>
+    </ul>
+    <div class="lang-toggle">
+      <button class="lang-btn active" onclick="setLang('en')">EN</button>
+      <button class="lang-btn" onclick="setLang('es')">ES</button>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div class="max-w">
+    <div class="hero-tag" data-en>Marketing Agency · Houston, TX</div>
+    <div class="hero-tag" data-es>Agencia de Marketing · Houston, TX</div>
+    <h1 class="hero-title" data-en>We make brands<br><span class="accent">impossible</span> to <span class="accent2">ignore.</span></h1>
+    <h1 class="hero-title" data-es>Hacemos marcas<br><span class="accent">imposibles</span> de <span class="accent2">ignorar.</span></h1>
+    <p class="hero-sub" data-en>Foocus Ag is a full-service creative marketing agency specializing in social media, video production, brand identity, and content strategy.</p>
+    <p class="hero-sub" data-es>Foocus Ag es una agencia creativa de marketing especializada en redes sociales, producción de video, identidad de marca y estrategia de contenido.</p>
+    <div class="hero-ctas">
+      <a href="https://wa.me/13468273976" target="_blank" class="btn-primary" data-en>Let's Talk →</a>
+      <a href="https://wa.me/13468273976" target="_blank" class="btn-primary" data-es>Hablemos →</a>
+      <a href="#portfolio" class="btn-outline" data-en>See Our Work</a>
+      <a href="#portfolio" class="btn-outline" data-es>Ver Trabajo</a>
+    </div>
+    <div class="hero-stats">
+      <div class="stat-item"><div class="stat-num">15+</div><div class="stat-label" data-en>Brands Elevated</div><div class="stat-label" data-es>Marcas Transformadas</div></div>
+      <div class="stat-item"><div class="stat-num">3M+</div><div class="stat-label" data-en>Organic Reach</div><div class="stat-label" data-es>Alcance Orgánico</div></div>
+      <div class="stat-item"><div class="stat-num">100%</div><div class="stat-label" data-en>Client Retention</div><div class="stat-label" data-es>Retención de Clientes</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section id="services">
+  <div class="max-w">
+    <div class="section-label" data-en>What We Do</div>
+    <div class="section-label" data-es>Lo Que Hacemos</div>
+    <h2 class="section-title" data-en>Every angle of your<br>brand, covered.</h2>
+    <h2 class="section-title" data-es>Cada ángulo de tu<br>marca, cubierto.</h2>
+    <div class="services-grid">
+      <div class="service-card">
+        <div class="service-icon">📱</div>
+        <h3 data-en>Social Media Management</h3><h3 data-es>Gestión de Redes Sociales</h3>
+        <p data-en>Monthly strategy, content calendar, caption writing, scheduling, and community management across Meta platforms.</p>
+        <p data-es>Estrategia mensual, calendario de contenido, captions, programación y gestión de comunidad en plataformas Meta.</p>
+        <span class="service-tag">WhatsApp · Instagram · Facebook</span>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">🎬</div>
+        <h3 data-en>Video Production</h3><h3 data-es>Producción de Video</h3>
+        <p data-en>Full-service video from concept to screen — scripting, directing, shooting, and editing for reels, ads, and brand content.</p>
+        <p data-es>Video completo de concepto a pantalla — scripting, dirección, grabación y edición para reels, anuncios y contenido de marca.</p>
+        <span class="service-tag" data-en>Reels · Brand Films · Ads</span><span class="service-tag" data-es>Reels · Brand Films · Anuncios</span>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">✂️</div>
+        <h3 data-en>Video Editing</h3><h3 data-es>Edición de Video</h3>
+        <p data-en>Professional editing for existing footage — color grading, captions, sound design, transitions, and platform-optimized exports.</p>
+        <p data-es>Edición profesional de material existente — corrección de color, captions, diseño de sonido y exportaciones optimizadas.</p>
+        <span class="service-tag" data-en>Reels · Cuts · Post-production</span><span class="service-tag" data-es>Reels · Cortes · Post-producción</span>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">✦</div>
+        <h3 data-en>Brand Identity & Design</h3><h3 data-es>Identidad de Marca y Diseño</h3>
+        <p data-en>Logo systems, color palettes, typography, brand guidelines, and visual assets that make you recognizable across every platform.</p>
+        <p data-es>Sistemas de logo, paletas, tipografía, guías de marca y activos visuales que te hacen reconocible en toda plataforma.</p>
+        <span class="service-tag" data-en>Logo · Guidelines · Assets</span><span class="service-tag" data-es>Logo · Guías · Activos</span>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">📊</div>
+        <h3 data-en>Content Strategy</h3><h3 data-es>Estrategia de Contenido</h3>
+        <p data-en>Data-informed content plans designed to grow your audience, increase engagement, and convert followers into paying customers.</p>
+        <p data-es>Planes de contenido basados en datos para crecer tu audiencia, aumentar el engagement y convertir seguidores en clientes.</p>
+        <span class="service-tag" data-en>Growth · Engagement · Conversion</span><span class="service-tag" data-es>Crecimiento · Engagement · Conversión</span>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">🎯</div>
+        <h3 data-en>Paid Ads (Meta)</h3><h3 data-es>Publicidad Pagada (Meta)</h3>
+        <p data-en>Campaign strategy, creative direction, and ad management on Facebook and Instagram — built to convert, not just reach.</p>
+        <p data-es>Estrategia de campaña, dirección creativa y gestión de anuncios en Facebook e Instagram — construidos para convertir.</p>
+        <span class="service-tag">FB Ads · IG Ads · Retargeting</span>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">🤝</div>
+        <h3 data-en>Content Creation & Collabs</h3><h3 data-es>Creación de Contenido y Colaboraciones</h3>
+        <p data-en>Paid and exchange collaborations with brands through Foocus Ag's personal brand — authentic content that reaches real audiences.</p>
+        <p data-es>Colaboraciones pagas y de intercambio con marcas a través de la marca personal de Foocus Ag — contenido auténtico para audiencias reales.</p>
+        <span class="service-tag" data-en>Brand Collabs · Sponsored · UGC</span><span class="service-tag" data-es>Colaboraciones · Patrocinados · UGC</span>
+      </div>
+    </div>
+
+    <div class="coming-soon-label">
+      <span class="cs-badge" data-en>Coming Soon</span><span class="cs-badge" data-es>Próximamente</span>
+      <div class="cs-line"></div>
+      <p data-en>Expanding our toolkit</p><p data-es>Expandiendo nuestras herramientas</p>
+    </div>
+    <div class="services-grid-soon">
+      <div class="service-card-soon">
+        <div class="service-icon">🌐</div>
+        <h3 data-en>Web Design & Development</h3><h3 data-es>Diseño y Desarrollo Web</h3>
+        <p data-en>Custom landing pages and websites designed to convert — fast, mobile-first, and built with your brand voice.</p>
+        <p data-es>Landing pages y sitios web diseñados para convertir — rápidos, mobile-first y con la voz de tu marca.</p>
+        <span class="soon-tag" data-en>In development</span><span class="soon-tag" data-es>En desarrollo</span>
+      </div>
+      <div class="service-card-soon">
+        <div class="service-icon">🤖</div>
+        <h3 data-en>AI Agents</h3><h3 data-es>Agentes de IA</h3>
+        <p data-en>Custom AI agents for customer service, lead qualification, and content automation — so your business runs even off the clock.</p>
+        <p data-es>Agentes de IA para atención al cliente, calificación de leads y automatización de contenido.</p>
+        <span class="soon-tag" data-en>In development</span><span class="soon-tag" data-es>En desarrollo</span>
+      </div>
+      <div class="service-card-soon">
+        <div class="service-icon">🧬</div>
+        <h3 data-en>AI Avatars</h3><h3 data-es>Avatares de IA</h3>
+        <p data-en>Hyper-realistic AI avatars of you or your brand — for content at scale without stepping in front of a camera every time.</p>
+        <p data-es>Avatares de IA hiperrealistas de ti o tu marca — contenido a escala sin cámara cada vez.</p>
+        <span class="soon-tag" data-en>In development</span><span class="soon-tag" data-es>En desarrollo</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PORTFOLIO -->
+<section id="portfolio">
+  <div class="max-w">
+    <div class="section-label" data-en>Our Work</div>
+    <div class="section-label" data-es>Nuestro Trabajo</div>
+    <h2 class="section-title" data-en>Content that moves<br>people — and numbers.</h2>
+    <h2 class="section-title" data-es>Contenido que mueve<br>personas — y métricas.</h2>
+    <p class="section-sub" data-en>Reels, designs, branding — everything we create lives here.</p>
+    <p class="section-sub" data-es>Reels, diseños, branding — todo lo que creamos vive aquí.</p>
+
+    <div class="portfolio-tabs">
+      <button class="ptab active" data-en>Reels & Video</button>
+      <button class="ptab active" data-es>Reels & Video</button>
+    </div>
+
+    <!-- REELS -->
+    <div class="ptab-content active" id="tab-reels">
+      <div class="reels-grid" id="reels-container"></div>
+    </div>
+
+None
+  </div>
+</section>
+
+<!-- CASE STUDIES -->
+<section id="work">
+  <div class="max-w">
+    <div class="section-label" data-en>Case Studies</div>
+    <div class="section-label" data-es>Casos de Estudio</div>
+    <h2 class="section-title" data-en>Results that speak<br>for themselves.</h2>
+    <h2 class="section-title" data-es>Resultados que hablan<br>por sí solos.</h2>
+    <p class="section-sub" data-en>Real brands, real outcomes. Each project is a full breakdown of what we built and what it achieved.</p>
+    <p class="section-sub" data-es>Marcas reales, resultados reales. Cada proyecto es un desglose completo de lo que construimos y lo que logró.</p>
+    <div class="work-grid">
+
+      <!-- AESTHETIC BY YANEZ -->
+      <div class="case-card">
+        <div class="case-thumb" style="background:#f5ede4;padding:0;position:relative;overflow:hidden;height:200px;">
+          <div style="position:absolute;inset:0;background:linear-gradient(135deg,#f5ede4 0%,#ede0d4 100%);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:.5rem;">
+            <div style="font-family:'Syne',sans-serif;font-size:1.5rem;font-weight:800;letter-spacing:3px;color:#a07850;text-align:center;line-height:1.1;">AESTHETIC<br><span style="font-size:.9rem;letter-spacing:5px;font-weight:400;">BY YANEZ</span></div>
+            <div style="width:48px;height:1px;background:#a07850;opacity:.4;"></div>
+            <div style="font-size:.6rem;letter-spacing:3px;color:#a07850;opacity:.7;text-transform:uppercase;">Estética &amp; Bienestar</div>
+          </div>
+          <span class="case-type-badge" data-en>Social Media + Branding</span>
+          <span class="case-type-badge" data-es>Social Media + Branding</span>
+        </div>
+        <div class="case-body">
+          <div class="case-client">Aesthetic by Yanez · Houston, TX</div>
+          <div class="case-title" data-en>From 365 followers to a fully booked practice</div>
+          <div class="case-title" data-es>De 365 seguidores a agenda llena</div>
+          <p class="case-desc" data-en>Dra. Daniela Yanez arrived in Houston with no local audience. We built her brand identity from scratch and took over her social media completely. 6 months later — 775 followers, 90% of clients from Instagram, DM volume up +31% MoM.</p>
+          <p class="case-desc" data-es>La Dra. Daniela Yanez llegó a Houston sin audiencia local. Construimos su identidad de marca desde cero y tomamos el control total de sus redes. 6 meses después — 775 seguidores, 90% de clientes de Instagram, DMs +31% mes a mes.</p>
+          <div style="margin-top:1.2rem;border:1px solid rgba(255,255,255,.08);border-radius:10px;overflow:hidden;">
+            <div style="display:grid;grid-template-columns:1fr 1fr 1fr;font-size:.72rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;background:rgba(255,255,255,.04);padding:.6rem 1rem;color:rgba(245,240,232,.4);">
+              <span data-en>Metric</span><span data-es>Métrica</span>
+              <span style="text-align:center;" data-en>Feb (Start)</span><span style="text-align:center;" data-es>Feb (Inicio)</span>
+              <span style="text-align:right;color:var(--lime);" data-en>May</span><span style="text-align:right;color:var(--lime);" data-es>Mayo</span>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr 1fr;font-size:.82rem;padding:.6rem 1rem;border-top:1px solid rgba(255,255,255,.05);">
+              <span style="color:rgba(245,240,232,.6);" data-en>Followers</span><span style="color:rgba(245,240,232,.6);" data-es>Seguidores</span>
+              <span style="text-align:center;color:rgba(245,240,232,.4);">365</span>
+              <span style="text-align:right;font-weight:700;color:var(--lime);">775 <span style="font-size:.68rem;color:rgba(184,255,0,.6);">+112%</span></span>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr 1fr;font-size:.82rem;padding:.6rem 1rem;border-top:1px solid rgba(255,255,255,.05);">
+              <span style="color:rgba(245,240,232,.6);" data-en>DM Contacts</span><span style="color:rgba(245,240,232,.6);" data-es>Contactos DM</span>
+              <span style="text-align:center;color:rgba(245,240,232,.4);">75</span>
+              <span style="text-align:right;font-weight:700;color:var(--lime);">104 <span style="font-size:.68rem;color:rgba(184,255,0,.6);">+31.1%</span></span>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr 1fr;font-size:.82rem;padding:.6rem 1rem;border-top:1px solid rgba(255,255,255,.05);">
+              <span style="color:rgba(245,240,232,.6);" data-en>New Contacts</span><span style="color:rgba(245,240,232,.6);" data-es>Contactos nuevos</span>
+              <span style="text-align:center;color:rgba(245,240,232,.4);">52</span>
+              <span style="text-align:right;font-weight:700;color:var(--lime);">80 <span style="font-size:.68rem;color:rgba(184,255,0,.6);">+54%</span></span>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr 1fr;font-size:.82rem;padding:.6rem 1rem;border-top:1px solid rgba(255,255,255,.05);">
+              <span style="color:rgba(245,240,232,.6);" data-en>Avg. Response</span><span style="color:rgba(245,240,232,.6);" data-es>Tiempo respuesta</span>
+              <span style="text-align:center;color:rgba(245,240,232,.4);">1h 9m</span>
+              <span style="text-align:right;font-weight:700;color:var(--lime);">23 min <span style="font-size:.68rem;color:rgba(184,255,0,.6);">−66%</span></span>
+            </div>
+          </div>
+          <div class="case-results" style="margin-top:1rem;">
+            <div class="result-pill"><span class="rnum">90%</span><span class="rlabel" data-en>Clients from IG</span><span class="rlabel" data-es>Clientes de IG</span></div>
+            <div class="result-pill"><span class="rnum">6 mo</span><span class="rlabel" data-en>Full management</span><span class="rlabel" data-es>Gestión completa</span></div>
+          </div>
+          <div class="case-tags" style="margin-top:.8rem;">
+            <span class="tag">Social Media</span><span class="tag">Brand Identity</span><span class="tag">Content Strategy</span><span class="tag">Houston, TX</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- RESTAURANTE SARASOTA -->
+      <div class="case-card">
+        <div class="case-thumb" style="background:#0d0d0d;padding:0;position:relative;overflow:hidden;height:200px;">
+          <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=700&q=80" alt="Restaurant" style="width:100%;height:100%;object-fit:cover;opacity:.55;"/>
+          <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.7) 0%,transparent 60%);"></div>
+          <div style="position:absolute;bottom:12px;left:14px;font-size:.72rem;color:rgba(255,255,255,.45);letter-spacing:1px;font-weight:600;text-transform:uppercase;" data-en>Sarasota, FL · Confidential</div>
+          <div style="position:absolute;bottom:12px;left:14px;font-size:.72rem;color:rgba(255,255,255,.45);letter-spacing:1px;font-weight:600;text-transform:uppercase;" data-es>Sarasota, FL · Confidencial</div>
+          <span class="case-type-badge" data-en>Social + Remote Production</span>
+          <span class="case-type-badge" data-es>Social + Producción Remota</span>
+        </div>
+        <div class="case-body">
+          <div class="case-client" data-en>Restaurant — Sarasota, FL <span style="opacity:.45">(Confidential)</span></div>
+          <div class="case-client" data-es>Restaurante — Sarasota, FL <span style="opacity:.45">(Confidencial)</span></div>
+          <div class="case-title" data-en>Remote management that filled tables from Instagram</div>
+          <div class="case-title" data-es>Gestión remota que llenó mesas desde Instagram</div>
+          <p class="case-desc" data-en>Working 100% remotely — coordinating shoot days via video call, delivering creative direction, scripting, and editing — we built an Instagram presence that became their #1 client acquisition channel.</p>
+          <p class="case-desc" data-es>Trabajando 100% de forma remota — coordinando grabaciones por videollamada, dirección creativa, scripting y edición — construimos una presencia en Instagram que se convirtió en su canal #1 de adquisición.</p>
+          <div style="margin-top:1rem;padding:.9rem 1rem;background:rgba(255,92,77,.06);border:1px solid rgba(255,92,77,.15);border-radius:8px;font-size:.8rem;color:rgba(245,240,232,.6);line-height:1.6;">
+            <span style="color:var(--coral);font-weight:700;" data-en>Remote workflow: </span><span style="color:var(--coral);font-weight:700;" data-es>Flujo remoto: </span>
+            <span data-en>Monthly strategy → scheduled shoot days → live direction via video call → footage delivered → full editing in Houston → published on schedule.</span>
+            <span data-es>Estrategia mensual → grabaciones agendadas → dirección en vivo por videollamada → footage enviado → edición desde Houston → publicado en fecha.</span>
+          </div>
+          <div class="case-results" style="margin-top:1rem;">
+            <div class="result-pill"><span class="rnum">+340%</span><span class="rlabel" data-en>Followers</span><span class="rlabel" data-es>Seguidores</span></div>
+            <div class="result-pill"><span class="rnum">#1</span><span class="rlabel" data-en>Client Channel</span><span class="rlabel" data-es>Canal principal</span></div>
+            <div class="result-pill"><span class="rnum">100%</span><span class="rlabel" data-en>Remote</span><span class="rlabel" data-es>Remoto</span></div>
+          </div>
+          <div class="case-tags" style="margin-top:.8rem;">
+            <span class="tag">Social Media</span><span class="tag">Remote Production</span><span class="tag">Video Editing</span><span class="tag">Sarasota, FL</span>
+          </div>
+        </div>
+      </div>
+
+None
+
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section id="pricing">
+  <div class="max-w">
+    <div class="section-label" data-en>Investment</div>
+    <div class="section-label" data-es>Inversión</div>
+    <h2 class="section-title" data-en>Simple, transparent<br>packages.</h2>
+    <h2 class="section-title" data-es>Paquetes simples y<br>transparentes.</h2>
+    <p class="section-sub" data-en>Every package is customized to your goals. Contact us for a personalized quote.</p>
+    <p class="section-sub" data-es>Cada paquete se adapta a tus objetivos. Contáctanos para una cotización personalizada.</p>
+    <div class="pricing-grid">
+      <div class="price-card">
+        <div class="price-name">Starter</div>
+        <div class="price-amount" data-en>Get a Quote</div><div class="price-amount" data-es>Cotizar</div>
+        <p class="price-desc" data-en>For businesses starting to build their online presence.</p>
+        <p class="price-desc" data-es>Para negocios comenzando su presencia online.</p>
+        <ul class="price-features">
+          <li data-en>12 posts/month (feed + stories)</li><li data-es>12 posts/mes (feed + stories)</li>
+          <li data-en>Caption writing (EN or ES)</li><li data-es>Redacción de captions (EN o ES)</li>
+          <li data-en>Monthly content calendar</li><li data-es>Calendario de contenido mensual</li>
+          <li data-en>Basic analytics report</li><li data-es>Reporte básico de analíticas</li>
+        </ul>
+        <div class="price-cta"><a href="https://wa.me/13468273976" target="_blank" class="btn-outline" data-en>Get a Quote →</a><a href="https://wa.me/13468273976" target="_blank" class="btn-outline" data-es>Cotizar →</a></div>
+      </div>
+      <div class="price-card featured">
+        <div class="featured-badge" data-en>Most Popular</div><div class="featured-badge" data-es>Más Popular</div>
+        <div class="price-name">Growth</div>
+        <div class="price-amount" data-en>Get a Quote</div><div class="price-amount" data-es>Cotizar</div>
+        <p class="price-desc" data-en>For brands ready to scale with consistent, high-quality content.</p>
+        <p class="price-desc" data-es>Para marcas listas para crecer con contenido de calidad.</p>
+        <ul class="price-features">
+          <li data-en>20 posts/month + reels</li><li data-es>20 posts/mes + reels</li>
+          <li data-en>Bilingual captions (EN + ES)</li><li data-es>Captions bilingüe (EN + ES)</li>
+          <li data-en>2 video shoots/month</li><li data-es>2 grabaciones de video/mes</li>
+          <li data-en>Meta Ads management</li><li data-es>Gestión de Meta Ads</li>
+          <li data-en>Monthly performance review</li><li data-es>Revisión mensual de desempeño</li>
+        </ul>
+        <div class="price-cta"><a href="https://wa.me/13468273976" target="_blank" class="btn-primary" data-en>Get a Quote →</a><a href="https://wa.me/13468273976" target="_blank" class="btn-primary" data-es>Cotizar →</a></div>
+      </div>
+      <div class="price-card">
+        <div class="price-name" data-en>Full Brand</div><div class="price-name" data-es>Marca Completa</div>
+        <div class="price-amount" data-en>Get a Quote</div><div class="price-amount" data-es>Cotizar</div>
+        <p class="price-desc" data-en>Everything — brand, video, social, ads, and strategy under one roof.</p>
+        <p class="price-desc" data-es>Todo — marca, video, redes, ads y estrategia bajo un solo techo.</p>
+        <ul class="price-features">
+          <li data-en>Complete brand identity system</li><li data-es>Sistema completo de identidad de marca</li>
+          <li data-en>Full video production pipeline</li><li data-es>Pipeline completo de producción de video</li>
+          <li data-en>Social media + Meta Ads</li><li data-es>Redes sociales + Meta Ads</li>
+          <li data-en>Dedicated strategy & reporting</li><li data-es>Estrategia y reportes dedicados</li>
+          <li data-en>Priority support</li><li data-es>Soporte prioritario</li>
+        </ul>
+        <div class="price-cta"><a href="https://wa.me/13468273976" target="_blank" class="btn-outline" data-en>Let's Talk →</a><a href="https://wa.me/13468273976" target="_blank" class="btn-outline" data-es>Hablemos →</a></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="contact-inner">
+    <div class="section-label" data-en>Let's Work Together</div>
+    <div class="section-label" data-es>Trabajemos Juntos</div>
+    <h2 class="section-title" data-en>Ready to make your brand <span style="color:var(--coral)">impossible to ignore?</span></h2>
+    <h2 class="section-title" data-es>¿Listo para hacer tu marca <span style="color:var(--coral)">imposible de ignorar?</span></h2>
+    <p data-en>Send us a message on WhatsApp or Instagram. No pressure — just a conversation about your goals.</p>
+    <p data-es>Escríbenos por WhatsApp o Instagram. Sin presión — solo una conversación sobre tus objetivos.</p>
+    <div class="contact-options">
+      <a href="https://wa.me/13468273976" target="_blank" class="contact-link" style="border-color:rgba(37,211,102,.3);">
+        <span class="cicon">💬</span>
+        <span data-en>Chat on WhatsApp</span><span data-es>Escríbenos por WhatsApp</span>
+      </a>
+      <a href="https://instagram.com/Foocus.ag" target="_blank" class="contact-link">
+        <span class="cicon">📸</span>
+        <span>@Foocus.ag</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-logo">Foocus<span>.</span>Ag</div>
+  <p data-en>© 2025 Foocus Ag · Houston, TX · All rights reserved.</p>
+  <p data-es>© 2025 Foocus Ag · Houston, TX · Todos los derechos reservados.</p>
+</footer>
+
+<script>
+const reels = [
+  {url:'https://www.instagram.com/reel/DWAM-OmjsHa/',code:'DWAM-OmjsHa',label:'Reel 01'},
+  {url:'https://www.instagram.com/reel/DYICojXtECO/',code:'DYICojXtECO',label:'Reel 02'},
+  {url:'https://www.instagram.com/reel/DWrWmLhBSg6/',code:'DWrWmLhBSg6',label:'Reel 03'},
+  {url:'https://www.instagram.com/reel/DVzG7LRkVop/',code:'DVzG7LRkVop',label:'Reel 04'},
+  {url:'https://www.instagram.com/reel/DTyhJDTkS1D/',code:'DTyhJDTkS1D',label:'Reel 05'},
+  {url:'https://www.instagram.com/reel/DTVl6KTEc4t/',code:'DTVl6KTEc4t',label:'Reel 06'},
+  {url:'https://www.instagram.com/reel/DYN1Tr4MUU2/',code:'DYN1Tr4MUU2',label:'Reel 07'},
+  {url:'https://www.instagram.com/reel/DYiXIolxN0u/',code:'DYiXIolxN0u',label:'Reel 08'},
+  {url:'https://www.instagram.com/reel/DX7ZIr_pAoO/',code:'DX7ZIr_pAoO',label:'Reel 09'},
+  {url:'https://www.instagram.com/reel/DXVHQRajim4/',code:'DXVHQRajim4',label:'Reel 10'},
+  {url:'https://www.instagram.com/reel/DYskLvjxGTd/',code:'DYskLvjxGTd',label:'Reel 11'},
+  {url:'https://www.instagram.com/reel/DUTv6dWCf7v/',code:'DUTv6dWCf7v',label:'Reel 12'},
+  {url:'https://www.instagram.com/reel/DMS5ie2NGnh/',code:'DMS5ie2NGnh',label:'Reel 13'},
+  {url:'https://www.instagram.com/reel/DHWzwsFSHM7/',code:'DHWzwsFSHM7',label:'Reel 14'},
+  {url:'https://www.instagram.com/reel/DE8HypdPVxP/',code:'DE8HypdPVxP',label:'Reel 15'},
+];
+
+const container = document.getElementById('reels-container');
+reels.forEach((r,i) => {
+  container.innerHTML += `
+    <a class="reel-card" href="${r.url}" target="_blank" rel="noopener">
+      <span class="reel-num">0${i+1 < 10 ? (i+1) : ''}</span>
+      <div class="reel-play">
+        <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+      </div>
+      <div class="reel-label">${r.label}</div>
+      <div class="reel-ig">@Foocus.ag</div>
+      <div class="reel-corner"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/></svg></div>
+    </a>`;
+});
+
+function switchTab(tab, btn) {
+  document.querySelectorAll('.ptab').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('.ptab-content').forEach(c=>c.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('tab-'+tab).classList.add('active');
+}
+
+function setLang(lang) {
+  document.body.className='lang-'+lang;
+  document.querySelectorAll('.lang-btn').forEach(b=>b.classList.remove('active'));
+  document.querySelector(`.lang-btn[onclick="setLang('${lang}')"]`).classList.add('active');
+}
+</script>
+</body>
+</html>
